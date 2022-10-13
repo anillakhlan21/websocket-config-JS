@@ -4,10 +4,36 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Teltonika config</title>
 </head>
 <body>
-    
+    <div id="parent">
+        <div id="form-parent">
+            <form id="form">
+                <div>
+                    <input name="name" type="text" placeholder="name">
+                </div>
+                <div>
+                    <input name="fatherName" type="text" placeholder="father's name">
+                </div>
+                <div>
+                    <input name="age" type="number" placeholder="age">
+                </div>
+                <div>
+                    <input name="country" type="text" placeholder="country">
+                </div>
+                <div>
+                    <input name="profession" type="text" placeholder="profession">
+                </div>
+            </form>
+            <div>
+                <button onclick="sendData()">Send data</button>
+            </div>
+            <div>
+                <button onclick="retrieveData()">Retrieve Data</button>
+            </div>
+        </div>
+    </div>
 </body>
 <script>
     let webSS = new WebSocket('ws://127.0.0.1:8080');
@@ -22,6 +48,23 @@
     }
     webSS.onmessage = (msgEvent)=>{
         console.log(msgEvent);
+    }
+    
+    function sendData(){
+        let obj = new Object()
+        // console.log(document.getElementsByTagName('input'));
+        let inputElements = document.getElementsByTagName('input');
+        let length = inputElements.length;
+        for(let i=0; i< length; i++){
+            let key = inputElements[i].name;
+            let value = inputElements[i].value;
+            obj[key] = value;
+            // console.log(inputElements[i].name,inputElements[i].value);
+        }
+        console.log(obj);
+    }
+    function retrieveData(){
+
     }
     
 </script>
