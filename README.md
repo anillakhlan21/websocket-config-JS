@@ -1,1 +1,2 @@
 # websocket-config-JS
+This is a websocket based application written in JS,HTML,CSS to connect with websocket server and read and write a config file in server. This application provides UI and websocket integration so that user can simply fill some fields and then according to that a json data is send to server side and server side application is in seprate repo which is written in c programing. That c programming based server side websocket application can send config.json file data and also can write in config.json when client sends data.
