@@ -46,25 +46,45 @@
     webSS.onerror = (ev)=>{
         console.log(ev);
     }
-    webSS.onmessage = (msgEvent)=>{
-        console.log(msgEvent);
-    }
+   
     
     function sendData(){
-        let obj = new Object()
-        // console.log(document.getElementsByTagName('input'));
         let inputElements = document.getElementsByTagName('input');
+        let outputData = '{'
         let length = inputElements.length;
         for(let i=0; i< length; i++){
             let key = inputElements[i].name;
             let value = inputElements[i].value;
-            obj[key] = value;
-            // console.log(inputElements[i].name,inputElements[i].value);
+            outputData+= `"${key}"`+":"+`"${value}"`;
+            if(i===inputElements.length-1){
+                outputData+="}";
+            }else{
+                outputData+=",";
+            }
         }
-        console.log(obj);
+        console.log(outputData);
+        webSS.send(outputData);
     }
     function retrieveData(){
-
+        webSS.send("send");
+        webSS.onmessage = (msgEvent)=>{
+        // console.log(msgEvent.data);
+        if(msgEvent.data == 'OK'){
+            alert("data saved in config file");
+        }else{
+            let jsonFiledata= JSON.parse(msgEvent.data);
+            console.log( jsonFiledata);
+            let inputElements = document.getElementsByTagName('input');
+            let length = inputElements.length;
+            for(let i=0; i< length;i++){
+                let key = inputElements[i].name;
+                if(new Object(jsonFiledata).hasOwnProperty(key)){
+                    inputElements[i].value = new Object(jsonFiledata)[key]
+                    // console.log(key);
+                }
+            }
+        }
+    }
     }
     
 </script>
